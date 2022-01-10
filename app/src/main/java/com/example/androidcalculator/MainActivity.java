@@ -28,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     String history, currentResult;
 
+    boolean btnACcontroll = true;
+
+    boolean dot =true;
+
+    boolean btnEqualsControll = false;
 
 
 
@@ -186,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
 
                 firstNumber=0;
                 lastNumber= 0;
+
+                dot=true;
+                btnACcontroll=true;
             }
         });
 
@@ -194,8 +202,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                number = number.substring(0,number.length()-1);
-                textViewResult.setText(number);
+                if (btnACcontroll)
+                {
+                    textViewResult.setText("0");
+                }
+                else
+                    {
+                        number = number.substring(0,number.length()-1);
+
+                        if (number.length()==0)
+                        {
+                            btnDel.setClickable(false);
+                        }
+                        else if (number.contains("."))
+                        {
+                            dot=false;
+                        }
+                        else
+                        {
+                            dot=true;
+                        }
+                        textViewResult.setText(number);
+                }
+
 
             }
         });
@@ -360,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
 
                  history = textViewHistory.getText().toString();
                  currentResult =textViewResult.getText().toString();
-                 textViewHistory.setText(history+currentResult+"=");
+                 textViewHistory.setText(history+currentResult+"");
 
                  if (operator)
                  {
@@ -386,6 +415,8 @@ public class MainActivity extends AppCompatActivity {
                      }
                  }
                  operator=false;
+
+                 btnEqualsControll=true;
              }
          });
 
@@ -404,6 +435,12 @@ public class MainActivity extends AppCompatActivity {
         {
             number = view;
         }
+        else if (btnEqualsControll)
+        {
+            firstNumber=0;
+            lastNumber=0;
+            number=view;
+        }
         else
         {
             number = number + view;
@@ -412,9 +449,16 @@ public class MainActivity extends AppCompatActivity {
         textViewResult.setText(number);
 
         operator = true;
+        btnACcontroll = false;
+        btnDel.setClickable(true);
+        btnEqualsControll =false;
 
 
     }
+
+
+
+
 
     public void plus()
      {
